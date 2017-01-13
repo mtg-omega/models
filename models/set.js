@@ -18,7 +18,9 @@ export default function (sequelize, DataTypes) {
     },
   }, {
     classMethods: {
-      associate(/* models */) {},
+      associate(models) {
+        models.set.hasMany(models.card);
+      },
     },
   });
 }
