@@ -1,7 +1,6 @@
 {
   "database": {
-    "logging": false,
-    "storage": "__tests__/assets/test.db"
+    "logging": false
   },
 
   "log": {
