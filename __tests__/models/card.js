@@ -1,4 +1,4 @@
-import { sequelize, Card } from '../../index';
+import { sequelize, Card, Set } from '../../index';
 
 describe('Card', () => {
   describe('Class', () => {
@@ -49,6 +49,43 @@ describe('Card', () => {
           expect(err).toBeDefined();
           expect(err.name).toBe('SequelizeValidationError');
           expect(err.errors[0].path).toBe('index');
+        }));
+    });
+
+    describe('Associations', () => {
+      const code = 'aaa';
+      const language = 'en';
+      const name = 'set a';
+
+      const code1 = 'bbb';
+
+      beforeEach(() => Card.findOne()
+        .then(card => card.createSet({ code, language, name })));
+
+      it('should have the set', () => Card.findOne({ include: [{ model: Set }] })
+        .then(card => expect(card.set).toBeDefined()));
+
+      it('should remove the set', () => Card.findOne()
+        .then(card => card.setSet(null))
+        .then(() => Card.findOne({ include: [{ model: Set }] }))
+        .then(card => expect(card.set).toBeNull()));
+
+      it('should change set', () => Promise.all([
+        Set.create({ code: code1, language, name }),
+        Card.findOne(),
+      ])
+        .then(([set, card]) => card.setSet(set))
+        .then(() => Promise.all([
+          Card.findOne({ include: [{ model: Set }] }),
+          Set.findOne({ where: { code }, include: [{ model: Card }] }),
+          Set.findOne({ where: { code: code1 }, include: [{ model: Card }] }),
+        ]))
+        .then(([card, set, set1]) => {
+          expect(card.set).toBeDefined();
+          expect(card.set.code).toBe(code1);
+
+          expect(set.cards).toHaveLength(0);
+          expect(set1.cards).toHaveLength(1);
         }));
     });
   });

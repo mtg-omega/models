@@ -1,4 +1,4 @@
-import { sequelize, Set } from '../../index';
+import { sequelize, Set, Card } from '../../index';
 
 describe('Set', () => {
   describe('Class', () => {
@@ -74,6 +74,29 @@ describe('Set', () => {
           expect(err.name).toBe('SequelizeValidationError');
           expect(err.errors[0].path).toBe('name');
         }));
+    });
+
+    describe('Associations', () => {
+      const index = 4;
+
+      beforeEach(() => Set.findOne()
+        .then(set => set.createCard({ index })));
+
+      it('should have a card', () => Set.findOne({ include: [{ model: Card }] })
+        .then(set => expect(set.cards).toHaveLength(1)));
+
+      it('should add a card', () => Set.findOne()
+        .then(set => set.createCard({ index: 5 }))
+        .then(() => Set.findOne({ include: [{ model: Card }] }))
+        .then(set => expect(set.cards).toHaveLength(2)));
+
+      it('should remove a card', () => Promise.all([
+        Set.findOne(),
+        Card.findOne(),
+      ])
+        .then(([set, card]) => set.removeCard(card))
+        .then(() => Set.findOne({ include: [{ model: Card }] }))
+        .then(set => expect(set.cards).toHaveLength(0)));
     });
   });
 });
