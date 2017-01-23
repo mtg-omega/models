@@ -1,33 +1,20 @@
 export default function (sequelize, DataTypes) {
   return sequelize.define('card', {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+
     index: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
-    },
-
-    setCode: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true,
-      references: {
-        model: 'sets',
-        key: 'code',
-      },
-    },
-
-    language: {
-      type: DataTypes.STRING(2),
-      allowNull: false,
-      primaryKey: true,
-      references: {
-        model: 'sets',
-        key: 'language',
-      },
     },
   }, {
     classMethods: {
-      associate(/* models */) {},
+      associate(models) {
+        models.card.belongsTo(models.set);
+      },
     },
   });
 }
