@@ -10,6 +10,50 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+
+    name: {
+      type: DataTypes.STRING,
+    },
+
+    typeStr: {
+      type: DataTypes.STRING,
+    },
+
+    type: {
+      type: DataTypes.STRING,
+    },
+
+    superType: {
+      type: DataTypes.STRING,
+    },
+
+    subType: {
+      type: DataTypes.STRING,
+    },
+
+    power: {
+      type: DataTypes.INTEGER,
+    },
+
+    toughness: {
+      type: DataTypes.INTEGER,
+    },
+
+    loyalty: {
+      type: DataTypes.INTEGER,
+    },
+
+    mana: {
+      type: DataTypes.STRING,
+    },
+
+    rarity: {
+      type: DataTypes.STRING,
+    },
+
+    artist: {
+      type: DataTypes.STRING,
+    },
   }, {
     classMethods: {
       associate(models) {

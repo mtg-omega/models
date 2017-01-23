@@ -14,6 +14,28 @@ describe('Card', () => {
       expect(Card.rawAttributes.index).toBeDefined();
       expect(Card.rawAttributes.index.allowNull).toBe(false);
 
+      expect(Card.rawAttributes.name).toBeDefined();
+
+      expect(Card.rawAttributes.typeStr).toBeDefined();
+
+      expect(Card.rawAttributes.type).toBeDefined();
+
+      expect(Card.rawAttributes.superType).toBeDefined();
+
+      expect(Card.rawAttributes.subType).toBeDefined();
+
+      expect(Card.rawAttributes.power).toBeDefined();
+
+      expect(Card.rawAttributes.toughness).toBeDefined();
+
+      expect(Card.rawAttributes.loyalty).toBeDefined();
+
+      expect(Card.rawAttributes.mana).toBeDefined();
+
+      expect(Card.rawAttributes.rarity).toBeDefined();
+
+      expect(Card.rawAttributes.artist).toBeDefined();
+
       expect(Card.rawAttributes.createdAt).toBeDefined();
       // eslint-disable-next-line no-underscore-dangle
       expect(Card._timestampAttributes.createdAt).toBe('createdAt');
