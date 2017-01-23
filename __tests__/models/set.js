@@ -8,13 +8,14 @@ describe('Set', () => {
     });
 
     it('should have all the attributes', () => {
+      expect(Set.rawAttributes.id).toBeDefined();
+      expect(Set.rawAttributes.id.primaryKey).toBe(true);
+
       expect(Set.rawAttributes.code).toBeDefined();
       expect(Set.rawAttributes.code.allowNull).toBe(false);
-      expect(Set.rawAttributes.code.primaryKey).toBe(true);
 
       expect(Set.rawAttributes.language).toBeDefined();
       expect(Set.rawAttributes.language.allowNull).toBe(false);
-      expect(Set.rawAttributes.language.primaryKey).toBe(true);
 
       expect(Set.rawAttributes.name).toBeDefined();
       expect(Set.rawAttributes.name.allowNull).toBe(false);
