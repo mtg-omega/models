@@ -1,4 +1,4 @@
-import { sequelize, Set, Card } from '../../index';
+import { sequelize, Set, Card } from '../../sql/index';
 
 describe('Set', () => {
   describe('Class', () => {

@@ -15,13 +15,12 @@ const sequelize = new Sequelize(
 );
 
 const models = {};
-const modelsDir = path.join(__dirname, 'sql');
 
 try {
-  fs.readdirSync(modelsDir)
-    .filter(filename => filename.substr(-3) === '.js')
+  fs.readdirSync(__dirname)
+    .filter(filename => filename.substr(-3) === '.js' && filename !== 'index.js')
     .forEach((filename) => {
-      const model = sequelize.import(path.join(modelsDir, filename));
+      const model = sequelize.import(path.join(__dirname, filename));
 
       models[model.name] = model;
     });
