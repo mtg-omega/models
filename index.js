@@ -15,7 +15,7 @@ const sequelize = new Sequelize(
 );
 
 const models = {};
-const modelsDir = path.join(__dirname, 'models');
+const modelsDir = path.join(__dirname, 'sql');
 
 try {
   fs.readdirSync(modelsDir)
