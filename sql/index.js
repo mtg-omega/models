@@ -26,7 +26,7 @@ try {
     });
 } catch (err) {
   if (err.code === 'ENOENT') {
-    log.db.warn('No "models" directory');
+    log.db.warn('No "sql" directory');
   } else {
     throw new Error(err);
   }
