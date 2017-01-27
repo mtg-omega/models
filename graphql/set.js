@@ -5,18 +5,15 @@ import {
   GraphQLNonNull,
 } from 'graphql';
 
-import {
-  GraphQLUUID,
-} from 'graphql-custom-types';
-
 import { Set as SetSql } from '../sql';
 
 const Set = new GraphQLObjectType({
   name: 'set',
   description: 'A set of cards',
   fields: () => ({
-    id: { type: GraphQLUUID },
     code: { type: GraphQLString },
+    language: { type: GraphQLString },
+    name: { type: GraphQLString },
   }),
 });
 
@@ -25,6 +22,7 @@ module.exports = {
     type: new GraphQLList(Set),
     args: {
       code: { type: GraphQLString },
+      language: { type: GraphQLString },
     },
     resolve: (source, where) => SetSql.findAll({ where }),
   },
@@ -33,6 +31,7 @@ module.exports = {
     type: Set,
     args: {
       code: { type: new GraphQLNonNull(GraphQLString) },
+      language: { type: new GraphQLNonNull(GraphQLString) },
     },
     resolve: (source, where) => SetSql.findOne({ where }),
   },

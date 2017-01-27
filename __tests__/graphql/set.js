@@ -14,10 +14,11 @@ describe('GraphQL', () => {
 
         expect(type).toBeDefined();
         expect(type.name).toBe('set');
-        expect(type.fields).toHaveLength(2);
+        expect(type.fields).toHaveLength(3);
 
-        expect(type.fields).toContainEqual({ name: 'id' });
         expect(type.fields).toContainEqual({ name: 'code' });
+        expect(type.fields).toContainEqual({ name: 'language' });
+        expect(type.fields).toContainEqual({ name: 'name' });
       }));
   });
 
@@ -42,7 +43,7 @@ describe('GraphQL', () => {
           expect(set.code).toBe(code);
         }));
 
-      it('should return 1 set', () => graphql(Schema, '{ sets(code: "aaa") { code } }')
+      it('should return 1 set', () => graphql(Schema, `{ sets(code: "${code}") { code } }`)
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();
@@ -63,7 +64,7 @@ describe('GraphQL', () => {
           expect(sets).toHaveLength(0);
         }));
 
-      it('should return the set', () => graphql(Schema, '{ set(code: "aaa") { code } }')
+      it('should return the set', () => graphql(Schema, `{ set(code: "${code}", language: "${language}") { code } }`)
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();
