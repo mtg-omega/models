@@ -17,7 +17,8 @@ describe('DynamoDB', () => {
       let tmpSet;
 
       beforeEach(() => Set.create({ code, language })
-        .then((set) => { tmpSet = set; }));
+        .then((set) => { tmpSet = set; })
+        .catch(err => console.log(err)));
 
       afterEach(() => tmpSet.delete());
 
@@ -36,7 +37,7 @@ describe('DynamoDB', () => {
           expect(set.language).toBe(language);
         }));
 
-      it.skip('should create a set with an existing code but a different language', Set.create({
+      it.only('should create a set with an existing code but a different language', Set.create({
         code,
         language: language2,
       })
