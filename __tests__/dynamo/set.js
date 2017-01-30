@@ -18,7 +18,7 @@ describe('DynamoDB', () => {
 
       beforeEach(() => Set.create({ code, language })
         .then((set) => { tmpSet = set; })
-        .catch(err => console.log(err)));
+        .catch(err => console.error(err)));
 
       afterEach(() => tmpSet.delete());
 
@@ -29,7 +29,7 @@ describe('DynamoDB', () => {
           expect(err.code).toBe('ConditionalCheckFailedException');
         }));
 
-      it('should find the created set', () => Set.get({ code })
+      it('should find the created set', () => Set.get({ code, language })
         .then((set) => {
           expect(set).toBeDefined();
           expect(set).toBeInstanceOf(Set);
@@ -37,15 +37,9 @@ describe('DynamoDB', () => {
           expect(set.language).toBe(language);
         }));
 
-      it.only('should create a set with an existing code but a different language', Set.create({
-        code,
-        language: language2,
-      })
+      it('should not find a set', () => Set.get({ code, language: language2 })
         .then((set) => {
-          expect(set).toBeDefined();
-          expect(set).toBeInstanceOf(Set);
-          expect(set.code).toBe(code);
-          expect(set.language).toBe(language2);
+          expect(set).not.toBeDefined();
         }));
     });
   });

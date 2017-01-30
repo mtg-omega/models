@@ -1,3 +1,4 @@
+import fs from 'fs';
 import config from 'config';
 import dynamoose from 'dynamoose';
 
@@ -7,16 +8,19 @@ dynamoose.AWS.config.update({
   region: config.get('aws.region'),
 });
 
-const Set = dynamoose.model('Set', {
-  code: String,
-  language: String,
-});
+const models = {};
 
-const Card = dynamoose.model('Card', {
-  code: String,
-  language: String,
-  index: Number,
-});
+fs.readdirSync(__dirname)
+  .filter(filename => filename.substr(-3) === '.js' && filename !== 'index.js')
+  .forEach((filename) => {
+    const model = require(`./${filename}`); // eslint-disable-line global-require, import/no-dynamic-require
+    const modelName = model.$__.name; // eslint-disable-line no-underscore-dangle
+
+    models[modelName] = model;
+  });
+
+const Card = models.Card;
+const Set = models.Set;
 
 export {
   Card,
