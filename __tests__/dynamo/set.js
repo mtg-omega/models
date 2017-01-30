@@ -17,8 +17,7 @@ describe('DynamoDB', () => {
       let tmpSet;
 
       beforeEach(() => Set.create({ code, language })
-        .then((set) => { tmpSet = set; })
-        .catch(err => console.error(err)));
+        .then((set) => { tmpSet = set; }));
 
       afterEach(() => tmpSet.delete());
 
@@ -40,6 +39,19 @@ describe('DynamoDB', () => {
       it('should not find a set', () => Set.get({ code, language: language2 })
         .then((set) => {
           expect(set).not.toBeDefined();
+        }));
+
+      it('should create a set with an existing code, but different language', () => Set.create({
+        code,
+        language: language2,
+      })
+        .then((set) => {
+          expect(set).toBeDefined();
+          expect(set).toBeInstanceOf(Set);
+          expect(set.code).toBe(code);
+          expect(set.language).toBe(language2);
+
+          return set.delete();
         }));
     });
   });
