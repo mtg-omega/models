@@ -52,7 +52,7 @@ describe('DynamoDB', () => {
           expect(set.language).toBe(language2);
 
           return set.delete();
-        }));
+        }), 10000);
     });
   });
 });

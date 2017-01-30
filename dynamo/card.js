@@ -13,7 +13,13 @@ const cardSchema = new dynamoose.Schema({
   },
 });
 
-cardSchema.virtual('code').get(() => this.setId.split('##')[0]);
-cardSchema.virtual('language').get(() => this.setId.split('##')[1]);
+function getSetIdPartFactory(part) {
+  return function getSetIdPart() {
+    return this.setId.split('##')[part];
+  };
+}
+
+cardSchema.virtual('code').get(getSetIdPartFactory(0));
+cardSchema.virtual('language').get(getSetIdPartFactory(1));
 
 module.exports = dynamoose.model('Card', cardSchema);
