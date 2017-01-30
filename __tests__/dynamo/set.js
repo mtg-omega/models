@@ -14,12 +14,9 @@ describe('DynamoDB', () => {
       const language = 'en';
       const language2 = 'it';
 
-      let tmpSet;
+      beforeEach(() => Set.create({ code, language }));
 
-      beforeEach(() => Set.create({ code, language })
-        .then((set) => { tmpSet = set; }));
-
-      afterEach(() => tmpSet.delete());
+      afterEach(() => Set.delete({ code, language }));
 
       it('should not create a set with an existing code', () => Set.create({ code, language })
         .then(() => { throw new Error('Condition should fail'); })

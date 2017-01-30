@@ -17,12 +17,9 @@ describe('DynamoDB', () => {
 
       const setId = [code, language].join('##');
 
-      let tmpCard;
+      beforeEach(() => Card.create({ setId, index }));
 
-      beforeEach(() => Card.create({ setId, index })
-        .then((card) => { tmpCard = card; }));
-
-      afterEach(() => tmpCard.delete());
+      afterEach(() => Card.delete({ setId, index }));
 
       it('should not create a card with a setId and index already existing', () => Card.create({ setId, index })
         .then(() => { throw new Error('Condition should fail'); })
