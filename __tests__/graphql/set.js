@@ -4,7 +4,7 @@ import Schema from '../../graphql';
 import { sequelize, Set as SetSql } from '../../sql';
 import { Set as SetDB } from '../../dynamo';
 
-describe('GraphQL', () => {
+describe.skip('GraphQL', () => {
   describe('Set', () => {
     it('should have the "set" type', () => graphql(Schema, '{ __type(name: "set") { name fields { name } } }')
       .then((result) => {

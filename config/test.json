@@ -1,7 +1,6 @@
 {
   "database": {
-    "logging": false,
-    "storage": "./data/test.db"
+    "logging": false
   },
 
   "log": {

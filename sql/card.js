@@ -1,23 +1,9 @@
 export default function (sequelize, DataTypes) {
   return sequelize.define('card', {
-    code: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    id: {
+      type: DataTypes.UUID,
       primaryKey: true,
-      references: {
-        model: 'sets',
-        key: 'code',
-      },
-    },
-
-    language: {
-      type: DataTypes.STRING(2),
-      allowNull: false,
-      primaryKey: true,
-      references: {
-        model: 'sets',
-        key: 'language',
-      },
+      defaultValue: DataTypes.UUIDV4(),
     },
 
     index: {
