@@ -10,7 +10,10 @@ export default function (sequelize, DataTypes) {
         len: [4],
       },
       get() {
-        return `${this.getDataValue('code')}##${this.getDataValue('language')}`;
+        return [
+          this.getDataValue('code'),
+          this.getDataValue('language'),
+        ].join('##');
       },
     },
 
