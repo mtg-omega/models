@@ -47,25 +47,44 @@ describe('Card', () => {
   });
 
   describe('Instance', () => {
+    const code = 'aaa';
+    const language = 'en';
+    const name = 'set a';
     const index = 4;
 
     beforeEach(() => sequelize.sync({ force: true })
-      .then(() => Promise.all([
-        Card.create({ index }),
-      ])));
+      .then(() => Set.create({ code, language, name }))
+      .then(() => Card.create({ code, language, index })));
 
     it('should have 1 row', () => Card.findAll()
       .then(cards => expect(cards).toHaveLength(1)));
 
-    it('should have the "4" row', () => Card.findOne({ where: { index } })
+    it('should have the "4" row', () => Card.findOne({ where: { code, language, index } })
       .then((card) => {
         expect(card).toBeDefined();
         expect(card).toBeInstanceOf(Object);
+        expect(card.id).toBe(`${code}##${language}##${index}`);
         expect(card.index).toBe(index);
       }));
 
     describe('Validation', () => {
-      it('should not create a row without the "index" field', () => Card.create({})
+      it('should not create a row without the "code" field', () => Card.create({ language, index })
+        .then(() => { throw new Error('This test should throw an exception'); })
+        .catch((err) => {
+          expect(err).toBeDefined();
+          expect(err.name).toBe('SequelizeValidationError');
+          expect(err.errors[0].path).toBe('code');
+        }));
+
+      it('should not create a row without the "language" field', () => Card.create({ code, index })
+        .then(() => { throw new Error('This test should throw an exception'); })
+        .catch((err) => {
+          expect(err).toBeDefined();
+          expect(err.name).toBe('SequelizeValidationError');
+          expect(err.errors[0].path).toBe('language');
+        }));
+
+      it('should not create a row without the "index" field', () => Card.create({ code, language })
         .then(() => { throw new Error('This test should throw an exception'); })
         .catch((err) => {
           expect(err).toBeDefined();
@@ -75,22 +94,19 @@ describe('Card', () => {
     });
 
     describe('Associations', () => {
-      const code = 'aaa';
-      const language = 'en';
-      const name = 'set a';
-
       const code1 = 'bbb';
-
-      beforeEach(() => Card.findOne()
-        .then(card => card.createSet({ code, language, name })));
 
       it('should have the set', () => Card.findOne({ include: [{ model: Set }] })
         .then(card => expect(card.set).toBeDefined()));
 
-      it('should remove the set', () => Card.findOne()
+      it('should not remove the set', () => Card.findOne()
         .then(card => card.setSet(null))
-        .then(() => Card.findOne({ include: [{ model: Set }] }))
-        .then(card => expect(card.set).toBeNull()));
+        .then(() => { throw new Error('This test should throw an exception'); })
+        .catch((err) => {
+          expect(err).toBeDefined();
+          expect(err.name).toBe('SequelizeValidationError');
+          expect(err.errors[0].path).toBe('mustHaveSet');
+        }));
 
       it('should change set', () => Promise.all([
         Set.create({ code: code1, language, name }),

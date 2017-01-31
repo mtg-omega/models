@@ -1,9 +1,31 @@
 export default function (sequelize, DataTypes) {
   return sequelize.define('card', {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      validate: {
+        contains: '##',
+        notEmpty: true,
+        len: [7],
+      },
+      get() {
+        return [
+          this.getDataValue('code'),
+          this.getDataValue('language'),
+          this.getDataValue('index'),
+        ].join('##');
+      },
+    },
+
+    code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    language: {
+      type: DataTypes.STRING(2),
+      allowNull: false,
     },
 
     index: {
@@ -58,6 +80,27 @@ export default function (sequelize, DataTypes) {
     classMethods: {
       associate(models) {
         models.card.belongsTo(models.set);
+      },
+    },
+
+    hooks: {
+      beforeValidate(card) {
+        if (card.setId) {
+          card.code = card.setId.split('##')[0]; // eslint-disable-line no-param-reassign
+          card.language = card.setId.split('##')[1]; // eslint-disable-line no-param-reassign
+        } else if (card.code && card.language) {
+          card.setId = `${card.code}##${card.language}`; // eslint-disable-line no-param-reassign
+        }
+
+        card.id = card.id; // eslint-disable-line no-param-reassign
+      },
+    },
+
+    validate: {
+      mustHaveSet() {
+        if (!this.setId) {
+          throw new Error('Every card must be part of a set');
+        }
       },
     },
   });

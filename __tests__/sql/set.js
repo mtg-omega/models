@@ -99,13 +99,17 @@ describe('Set', () => {
         .then(() => Set.findOne({ include: [{ model: Card }] }))
         .then(set => expect(set.cards).toHaveLength(2)));
 
-      it('should remove a card', () => Promise.all([
+      it('should not remove a card', () => Promise.all([
         Set.findOne(),
         Card.findOne(),
       ])
         .then(([set, card]) => set.removeCard(card))
-        .then(() => Set.findOne({ include: [{ model: Card }] }))
-        .then(set => expect(set.cards).toHaveLength(0)));
+        .then(() => { throw new Error('This test should throw an exception'); })
+        .catch((err) => {
+          expect(err).toBeDefined();
+          expect(err.name).toBe('SequelizeValidationError');
+          expect(err.errors[0].path).toBe('mustHaveSet');
+        }));
     });
   });
 });
