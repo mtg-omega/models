@@ -4,12 +4,20 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
+      references: {
+        model: 'sets',
+        key: 'code',
+      },
     },
 
     language: {
       type: DataTypes.STRING(2),
       allowNull: false,
       primaryKey: true,
+      references: {
+        model: 'sets',
+        key: 'language',
+      },
     },
 
     index: {
