@@ -1,6 +1,6 @@
 import { Set } from '../../dynamo';
 
-describe('DynamoDB', () => {
+describe.skip('DynamoDB', () => {
   describe('Set', () => {
     describe('Model', () => {
       it('should be the Set model', () => {

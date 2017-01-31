@@ -1,6 +1,6 @@
 import { Card } from '../../dynamo';
 
-describe('DynamoDB', () => {
+describe.skip('DynamoDB', () => {
   describe('Card', () => {
     describe('Model', () => {
       it('should be the Card model', () => {
