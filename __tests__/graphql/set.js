@@ -1,7 +1,8 @@
 import { graphql } from 'graphql';
 
 import Schema from '../../graphql';
-import { sequelize, Set } from '../../sql';
+import { sequelize, Set as SetSql } from '../../sql';
+import { Set as SetDB } from '../../dynamo';
 
 describe('GraphQL', () => {
   describe('Set', () => {
@@ -23,15 +24,18 @@ describe('GraphQL', () => {
   });
 
   describe('Query', () => {
-    const code = 'aaa';
+    const code = 'bbb';
     const language = 'en';
     const name = 'set a';
 
     beforeEach(() => sequelize.sync({ force: true })
-      .then(() => Set.create({ code, language, name })));
+      .then(() => SetSql.create({ code, language, name }))
+      .then(() => SetDB.create({ code, language })));
+
+    afterEach(() => SetDB.delete({ code, language }));
 
     describe('Basic', () => {
-      it('should return 1 set', () => graphql(Schema, '{ sets { code } }')
+      it.only('should return 1 set', () => graphql(Schema, '{ sets { code } }')
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();
@@ -55,7 +59,7 @@ describe('GraphQL', () => {
           expect(set.code).toBe(code);
         }));
 
-      it('should return no sets', () => graphql(Schema, '{ sets(code: "aaab") { code } }')
+      it('should return no sets', () => graphql(Schema, `{ sets(code: "${code}b") { code } }`)
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();
@@ -70,7 +74,7 @@ describe('GraphQL', () => {
           expect(errors).not.toBeDefined();
 
           const { set } = data;
-          expect(set.code).toBeDefined();
+          expect(set.code).toBe(code);
         }));
     });
   });

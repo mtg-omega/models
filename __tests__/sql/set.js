@@ -47,10 +47,19 @@ describe('Set', () => {
       .then((set) => {
         expect(set).toBeDefined();
         expect(set).toBeInstanceOf(Object);
+        expect(set.id).toBe(`${code}##${language}`);
         expect(set.name).toBe(name);
       }));
 
     describe('Validation', () => {
+      it('should not create a row with existing keys', () => Set.create({ code, language, name })
+        .then(() => { throw new Error('This test should throw an exception'); })
+        .catch((err) => {
+          expect(err).toBeDefined();
+          expect(err.name).toBe('SequelizeUniqueConstraintError');
+          expect(err.errors[0].path).toBe('id');
+        }));
+
       it('should not create a row without the "code" field', () => Set.create({ language, name })
         .then(() => { throw new Error('This test should throw an exception'); })
         .catch((err) => {

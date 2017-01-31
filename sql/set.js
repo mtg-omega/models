@@ -1,9 +1,17 @@
 export default function (sequelize, DataTypes) {
   return sequelize.define('set', {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       primaryKey: true,
-      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      validate: {
+        contains: '##',
+        notEmpty: true,
+        len: [4],
+      },
+      get() {
+        return `${this.getDataValue('code')}##${this.getDataValue('language')}`;
+      },
     },
 
     code: {
@@ -24,6 +32,12 @@ export default function (sequelize, DataTypes) {
     classMethods: {
       associate(models) {
         models.set.hasMany(models.card);
+      },
+    },
+
+    hooks: {
+      beforeValidate(set) {
+        set.id = set.id; // eslint-disable-line no-param-reassign
       },
     },
   });
