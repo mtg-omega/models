@@ -12,18 +12,12 @@ describe('Sql', () => {
 
         expect(Card.attributes.index.allowNull).toBe(false);
 
-        // eslint-disable-next-line no-underscore-dangle
-        expect(Card.attributes.power._modelAttribute).toBe(true);
-        // eslint-disable-next-line no-underscore-dangle
-        expect(Card.attributes.toughness._modelAttribute).toBe(true);
-        // eslint-disable-next-line no-underscore-dangle
-        expect(Card.attributes.loyalty._modelAttribute).toBe(true);
-        // eslint-disable-next-line no-underscore-dangle
-        expect(Card.attributes.mana._modelAttribute).toBe(true);
-        // eslint-disable-next-line no-underscore-dangle
-        expect(Card.attributes.rarity._modelAttribute).toBe(true);
-        // eslint-disable-next-line no-underscore-dangle
-        expect(Card.attributes.artist._modelAttribute).toBe(true);
+        expect(Card.attributes.power.fieldName).toBe('power');
+        expect(Card.attributes.toughness.fieldName).toBe('toughness');
+        expect(Card.attributes.loyalty.fieldName).toBe('loyalty');
+        expect(Card.attributes.mana.fieldName).toBe('mana');
+        expect(Card.attributes.rarity.fieldName).toBe('rarity');
+        expect(Card.attributes.artist.fieldName).toBe('artist');
 
         expect(Card.attributes.createdAt.allowNull).toBe(false);
         // eslint-disable-next-line no-underscore-dangle
