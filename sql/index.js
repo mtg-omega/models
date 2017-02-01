@@ -16,21 +16,13 @@ const sequelize = new Sequelize(
 
 const models = {};
 
-try {
-  fs.readdirSync(__dirname)
-    .filter(filename => filename.substr(-3) === '.js' && filename !== 'index.js')
-    .forEach((filename) => {
-      const model = sequelize.import(path.join(__dirname, filename));
+fs.readdirSync(__dirname)
+  .filter(filename => filename.substr(-3) === '.js' && filename !== 'index.js')
+  .forEach((filename) => {
+    const model = sequelize.import(path.join(__dirname, filename));
 
-      models[model.name] = model;
-    });
-} catch (err) {
-  if (err.code === 'ENOENT') {
-    log.db.warn('No "sql" directory');
-  } else {
-    throw new Error(err);
-  }
-}
+    models[model.name] = model;
+  });
 
 Object.keys(models)
   .filter(modelName => modelName.substr(0, 1) !== '_' && 'associate' in models[modelName])
