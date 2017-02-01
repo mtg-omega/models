@@ -1,10 +1,10 @@
 {
-  "aws": {
-    "region": "eu-west-1"
-  },
-
   "database": {
     "dialect": "sqlite",
     "logging": true
+  },
+
+  "log": {
+    "level": "info"
   }
 }

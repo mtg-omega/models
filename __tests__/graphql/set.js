@@ -2,7 +2,6 @@ import { graphql } from 'graphql';
 
 import Schema from '../../graphql';
 import { sequelize, Set as SetSql } from '../../sql';
-import { Set as SetDB } from '../../dynamo';
 
 describe.skip('GraphQL', () => {
   describe('Set', () => {
@@ -29,10 +28,7 @@ describe.skip('GraphQL', () => {
     const name = 'set a';
 
     beforeEach(() => sequelize.sync({ force: true })
-      .then(() => SetSql.create({ code, language, name }))
-      .then(() => SetDB.create({ code, language })));
-
-    afterEach(() => SetDB.delete({ code, language }));
+      .then(() => SetSql.create({ code, language, name })));
 
     describe('Basic', () => {
       it.only('should return 1 set', () => graphql(Schema, '{ sets { code } }')
