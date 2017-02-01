@@ -31,12 +31,14 @@ Object.keys(models)
 const Card = models.card;
 const Set = models.set;
 const SetI18N = models['set-i18n'];
+const CardI18N = models['card-i18n'];
 
 export {
   Sequelize,
   sequelize,
 
   Card,
+  CardI18N,
   Set,
   SetI18N,
 };
