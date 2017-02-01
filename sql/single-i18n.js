@@ -3,7 +3,7 @@
 // subType
 
 export default function (sequelize, DataTypes) {
-  return sequelize.define('card-i18n', {
+  return sequelize.define('single-i18n', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -24,10 +24,10 @@ export default function (sequelize, DataTypes) {
       type: DataTypes.STRING,
     },
   }, {
-    tableName: 'cards-i18n',
+    tableName: 'singles-i18n',
     classMethods: {
       associate(models) {
-        models['card-i18n'].belongsTo(models.card);
+        models['single-i18n'].belongsTo(models.single);
       },
     },
   });

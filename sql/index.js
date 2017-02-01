@@ -28,17 +28,17 @@ Object.keys(models)
   .filter(modelName => modelName.substr(0, 1) !== '_' && 'associate' in models[modelName])
   .forEach(modelName => models[modelName].associate(models));
 
-const Card = models.card;
 const Set = models.set;
 const SetI18N = models['set-i18n'];
-const CardI18N = models['card-i18n'];
+const Single = models.single;
+const SingleI18N = models['single-i18n'];
 
 export {
   Sequelize,
   sequelize,
 
-  Card,
-  CardI18N,
   Set,
   SetI18N,
+  Single,
+  SingleI18N,
 };

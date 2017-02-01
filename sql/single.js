@@ -14,7 +14,7 @@
 // artist
 
 export default function (sequelize, DataTypes) {
-  return sequelize.define('card', {
+  return sequelize.define('single', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -52,7 +52,7 @@ export default function (sequelize, DataTypes) {
   }, {
     classMethods: {
       associate(models) {
-        models.card.hasMany(models['card-i18n'], { as: 'i18n' });
+        models.single.hasMany(models['single-i18n'], { as: 'i18n' });
       },
     },
 
