@@ -1,9 +1,9 @@
 import { graphql } from 'graphql';
 
 import Schema from '../../graphql';
-import { sequelize, Set as SetSql } from '../../sql';
+import { sequelize, Set, SetI18N } from '../../sql';
 
-describe.skip('GraphQL', () => {
+describe('GraphQL', () => {
   describe('Set', () => {
     it('should have the "set" type', () => graphql(Schema, '{ __type(name: "set") { name fields { name } } }')
       .then((result) => {
@@ -14,10 +14,9 @@ describe.skip('GraphQL', () => {
 
         expect(type).toBeDefined();
         expect(type.name).toBe('set');
-        expect(type.fields).toHaveLength(3);
+        expect(type.fields).toHaveLength(2);
 
         expect(type.fields).toContainEqual({ name: 'code' });
-        expect(type.fields).toContainEqual({ name: 'language' });
         expect(type.fields).toContainEqual({ name: 'name' });
       }));
   });
@@ -28,10 +27,10 @@ describe.skip('GraphQL', () => {
     const name = 'set a';
 
     beforeEach(() => sequelize.sync({ force: true })
-      .then(() => SetSql.create({ code, language, name })));
+      .then(() => Set.create({ code, i18n: [{ language, name }] }, { include: [{ model: SetI18N, as: 'i18n' }] })));
 
     describe('Basic', () => {
-      it.only('should return 1 set', () => graphql(Schema, '{ sets { code } }')
+      it('should return 1 set', () => graphql(Schema, '{ sets { code } }')
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();

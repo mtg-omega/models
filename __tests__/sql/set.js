@@ -58,8 +58,7 @@ describe('Sql', () => {
       const name = 'Set 1';
 
       beforeEach(() => sequelize.sync({ force: true })
-        .then(() => Set.create({ code }))
-        .then(set => set.createI18n({ language, name })));
+        .then(() => Set.create({ code, i18n: [{ language, name }] }, { include: [{ model: SetI18N, as: 'i18n' }] })));
 
       it('should be an instance of Set', () => Set.findOne({ where: { code } })
         .then((set) => {
