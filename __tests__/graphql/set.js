@@ -63,13 +63,14 @@ describe('GraphQL', () => {
           expect(sets).toHaveLength(0);
         }));
 
-      it('should return the set', () => graphql(Schema, `{ set(code: "${code}", language: "${language}") { code } }`)
+      it('should return the set', () => graphql(Schema, `{ set(code: "${code}", language: "${language}") { code, name } }`)
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();
 
           const { set } = data;
           expect(set.code).toBe(code);
+          expect(set.name).toBe(name);
         }));
     });
   });

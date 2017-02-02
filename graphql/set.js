@@ -12,7 +12,16 @@ const Set = new GraphQLObjectType({
   description: 'A set of cards',
   fields: () => ({
     code: { type: GraphQLString },
-    name: { type: GraphQLString },
+    name: {
+      type: GraphQLString,
+      resolve(set) {
+        if (set.i18n) {
+          return set.i18n[0].name;
+        }
+
+        return null;
+      },
+    },
   }),
 });
 
@@ -23,7 +32,7 @@ module.exports = {
       code: { type: GraphQLString },
       language: { type: GraphQLString },
     },
-    resolve(source, { code, language }) {
+    resolve(_, { code, language }) {
       const query = {
         where: {},
         include: [],
@@ -51,7 +60,7 @@ module.exports = {
       code: { type: new GraphQLNonNull(GraphQLString) },
       language: { type: GraphQLString },
     },
-    resolve(source, { code, language }) {
+    resolve(_, { code, language }) {
       const query = {
         where: { code },
         include: [],
