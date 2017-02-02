@@ -8,7 +8,7 @@ fs.readdirSync(__dirname)
   .forEach((filename) => {
     const tmpFields = require(`./${filename}`); // eslint-disable-line global-require, import/no-dynamic-require
 
-    Object.assign(queryFields, tmpFields);
+    Object.assign(queryFields, tmpFields.default);
   });
 
 const Query = new GraphQLObjectType({

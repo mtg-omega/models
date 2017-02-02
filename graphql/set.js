@@ -7,7 +7,7 @@ import {
 
 import { Set as SetSql, SetI18N } from '../sql';
 
-const Set = new GraphQLObjectType({
+export const Set = new GraphQLObjectType({
   name: 'set',
   description: 'A set of cards',
   fields: () => ({
@@ -25,7 +25,7 @@ const Set = new GraphQLObjectType({
   }),
 });
 
-module.exports = {
+export default {
   sets: {
     type: new GraphQLList(Set),
     args: {

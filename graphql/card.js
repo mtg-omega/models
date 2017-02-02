@@ -8,7 +8,7 @@ import {
 } from 'graphql-custom-types';
 
 
-const Card = new GraphQLObjectType({
+export const Card = new GraphQLObjectType({
   name: 'card',
   description: 'A card of a set',
   fields: () => ({
@@ -16,7 +16,7 @@ const Card = new GraphQLObjectType({
   }),
 });
 
-module.exports = {
+export default {
   cards: {
     type: new GraphQLList(Card),
   },
