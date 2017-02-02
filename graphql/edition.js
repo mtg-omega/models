@@ -5,29 +5,37 @@ import {
   GraphQLNonNull,
 } from 'graphql';
 
-import { Set as SetSql, SetI18N } from '../sql';
+import { Single } from './single';
+import { Edition as EditionSql, EditionI18N } from '../sql';
 
-export const Set = new GraphQLObjectType({
-  name: 'set',
-  description: 'A set of cards',
+export const Edition = new GraphQLObjectType({
+  name: 'edition',
+  description: 'An edition of singles',
   fields: () => ({
     code: { type: GraphQLString },
     name: {
       type: GraphQLString,
-      resolve(set) {
-        if (set.i18n) {
-          return set.i18n[0].name;
+      resolve(edition) {
+        if (edition.i18n) {
+          return edition.i18n[0].name;
         }
 
         return null;
+      },
+    },
+
+    singles: {
+      type: new GraphQLList(Single),
+      resolve(edition) {
+        return edition.getSingles();
       },
     },
   }),
 });
 
 export default {
-  sets: {
-    type: new GraphQLList(Set),
+  editions: {
+    type: new GraphQLList(Edition),
     args: {
       code: { type: GraphQLString },
       language: { type: GraphQLString },
@@ -44,18 +52,18 @@ export default {
 
       if (language) {
         query.include.push({
-          model: SetI18N,
+          model: EditionI18N,
           as: 'i18n',
           where: { language },
         });
       }
 
-      return SetSql.findAll(query);
+      return EditionSql.findAll(query);
     },
   },
 
-  set: {
-    type: Set,
+  edition: {
+    type: Edition,
     args: {
       code: { type: new GraphQLNonNull(GraphQLString) },
       language: { type: GraphQLString },
@@ -68,13 +76,13 @@ export default {
 
       if (language) {
         query.include.push({
-          model: SetI18N,
+          model: EditionI18N,
           as: 'i18n',
           where: { language },
         });
       }
 
-      return SetSql.findOne(query);
+      return EditionSql.findOne(query);
     },
   },
 };

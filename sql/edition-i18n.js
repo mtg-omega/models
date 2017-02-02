@@ -1,5 +1,5 @@
 export default function (sequelize, DataTypes) {
-  return sequelize.define('set-i18n', {
+  return sequelize.define('edition-i18n', {
     id: {
       type: DataTypes.UUID,
       primaryKey: true,
@@ -16,10 +16,10 @@ export default function (sequelize, DataTypes) {
       allowNull: false,
     },
   }, {
-    tableName: 'sets-i18n',
+    tableName: 'editions-i18n',
     classMethods: {
       associate(models) {
-        models['set-i18n'].belongsTo(models.set);
+        models['edition-i18n'].belongsTo(models.edition);
       },
     },
   });

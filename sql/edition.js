@@ -1,5 +1,5 @@
 export default function (sequelize, DataTypes) {
-  return sequelize.define('set', {
+  return sequelize.define('edition', {
     code: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -8,7 +8,8 @@ export default function (sequelize, DataTypes) {
   }, {
     classMethods: {
       associate(models) {
-        models.set.hasMany(models['set-i18n'], { as: 'i18n' });
+        models.edition.hasMany(models['edition-i18n'], { as: 'i18n' });
+        models.edition.hasMany(models.single);
       },
     },
 

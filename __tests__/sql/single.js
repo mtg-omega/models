@@ -1,4 +1,4 @@
-import { sequelize, Single, SingleI18N } from '../../sql';
+import { sequelize, Single, SingleI18N, Edition } from '../../sql';
 
 describe('Sql', () => {
   describe('Single', () => {
@@ -31,6 +31,7 @@ describe('Sql', () => {
         expect(Single._timestampAttributes.updatedAt).toBe('updatedAt'); // eslint-disable-line no-underscore-dangle
 
         expect(Single.associations.i18n).toBeDefined();
+        expect(Single.associations.edition).toBeDefined();
       });
 
       it('should be an international model', () => {
@@ -68,9 +69,19 @@ describe('Sql', () => {
       const name = 'Single 1';
       const typeStr = 'typeStr';
 
+      const code = 'ccc';
+
       beforeEach(() => sequelize.sync({ force: true })
-        .then(() => Single.create({ index }))
-        .then(single => single.createI18n({ language, name, typeStr })));
+        .then(() => Single.create({
+          index,
+          i18n: { language, name, typeStr },
+          edition: { code },
+        }, {
+          include: [
+            { model: SingleI18N, as: 'i18n' },
+            { model: Edition },
+          ],
+        })));
 
       it('should be an instance of Single', () => Single.findOne({ where: { index } })
         .then((single) => {
@@ -104,6 +115,14 @@ describe('Sql', () => {
 
       it('should have i18n shortcut', () => Single.findOne({ where: { index }, include: [{ model: SingleI18N, as: 'i18n' }] })
         .then(single => expect(single.getName(language)).toBe(name) || expect(single.getName('fr')).toBeNull()));
+
+      describe('Associations', () => {
+        it('should have its edition', () => Single.findOne({ where: { index }, include: [{ model: Edition }] })
+          .then(({ edition }) => {
+            expect(edition).toBeDefined();
+            expect(edition.code).toBe(code);
+          }));
+      });
     });
   });
 });

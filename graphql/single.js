@@ -8,9 +8,9 @@ import {
 } from 'graphql-custom-types';
 
 
-export const Card = new GraphQLObjectType({
-  name: 'card',
-  description: 'A card of a set',
+export const Single = new GraphQLObjectType({
+  name: 'single',
+  description: 'A single of an edition',
   fields: () => ({
     id: { type: GraphQLUUID },
   }),
@@ -18,10 +18,10 @@ export const Card = new GraphQLObjectType({
 
 export default {
   cards: {
-    type: new GraphQLList(Card),
+    type: new GraphQLList(Single),
   },
 
   card: {
-    type: Card,
+    type: Single,
   },
 };
