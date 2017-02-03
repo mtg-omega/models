@@ -6,7 +6,7 @@ import {
 } from 'graphql';
 
 import { Single } from './single';
-import { Edition as EditionSql, EditionI18N } from '../sql';
+import { Edition as EditionSql, EditionI18N, SingleI18N } from '../sql';
 
 export const Edition = new GraphQLObjectType({
   name: 'edition',
@@ -27,7 +27,17 @@ export const Edition = new GraphQLObjectType({
     singles: {
       type: new GraphQLList(Single),
       resolve(edition) {
-        return edition.getSingles();
+        const query = { include: [] };
+
+        if (edition.i18n.length === 1) {
+          query.include.push({
+            model: SingleI18N,
+            as: 'i18n',
+            where: { language: edition.i18n[0].language },
+          });
+        }
+
+        return edition.getSingles(query);
       },
     },
   }),

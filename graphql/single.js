@@ -1,6 +1,7 @@
 import {
   GraphQLObjectType,
   GraphQLList,
+  GraphQLString,
 } from 'graphql';
 
 import {
@@ -13,6 +14,16 @@ export const Single = new GraphQLObjectType({
   description: 'A single of an edition',
   fields: () => ({
     id: { type: GraphQLUUID },
+    name: {
+      type: GraphQLString,
+      resolve(single) {
+        if (single.i18n) {
+          return single.i18n[0].name;
+        }
+
+        return null;
+      },
+    },
   }),
 });
 

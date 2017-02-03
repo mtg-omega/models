@@ -1,7 +1,7 @@
 import { graphql } from 'graphql';
 
 import Schema from '../../graphql';
-import { sequelize, Edition, EditionI18N, Single } from '../../sql';
+import { sequelize, Edition, EditionI18N, Single, SingleI18N } from '../../sql';
 
 describe('GraphQL', () => {
   describe('Edition', () => {
@@ -28,16 +28,20 @@ describe('GraphQL', () => {
     const name = 'edition a';
 
     const index = 6;
+    const singleName = 'single a';
 
     beforeEach(() => sequelize.sync({ force: true })
       .then(() => Edition.create({
         code,
         i18n: [{ language, name }],
-        singles: [{ index }],
+        singles: [{
+          index,
+          i18n: [{ name: singleName, language }],
+        }],
       }, {
         include: [
           { model: EditionI18N, as: 'i18n' },
-          { model: Single },
+          { model: Single, include: [{ model: SingleI18N, as: 'i18n' }] },
         ],
       })));
 
@@ -75,7 +79,7 @@ describe('GraphQL', () => {
           expect(editions).toHaveLength(0);
         }));
 
-      it('should return the edition', () => graphql(Schema, `{ edition(code: "${code}", language: "${language}") { code, name } }`)
+      it('should return the edition', () => graphql(Schema, `{ edition(code: "${code}", language: "${language}") { code name } }`)
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();
@@ -84,10 +88,20 @@ describe('GraphQL', () => {
           expect(edition.code).toBe(code);
           expect(edition.name).toBe(name);
         }));
+
+      it('should return the edition without its name', () => graphql(Schema, `{ edition(code: "${code}") { code name } }`)
+        .then(({ data, errors }) => {
+          expect(data).toBeDefined();
+          expect(errors).not.toBeDefined();
+
+          const { edition } = data;
+          expect(edition.code).toBe(code);
+          expect(edition.name).toBeNull();
+        }));
     });
 
     describe('Associations', () => {
-      it('should return the singles', () => graphql(Schema, '{ editions { code singles { id } } }')
+      it('should return the singles', () => graphql(Schema, `{ editions(language: "${language}") { code singles { id name } } }`)
         .then(({ data, errors }) => {
           expect(data).toBeDefined();
           expect(errors).not.toBeDefined();
@@ -101,6 +115,7 @@ describe('GraphQL', () => {
 
           const [single] = edition.singles;
           expect(single.id).toBeDefined();
+          expect(single.name).toBe(singleName);
         }));
     });
   });
