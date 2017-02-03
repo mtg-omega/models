@@ -33,6 +33,8 @@ const EditionI18N = models['edition-i18n'];
 const Single = models.single;
 const SingleI18N = models['single-i18n'];
 
+const User = models.user;
+
 export {
   Sequelize,
   sequelize,
@@ -41,4 +43,6 @@ export {
   EditionI18N,
   Single,
   SingleI18N,
+
+  User,
 };
