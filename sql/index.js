@@ -35,6 +35,9 @@ const SingleI18N = models['single-i18n'];
 
 const User = models.user;
 
+const Feed = models.feed;
+const Article = models.article;
+
 export {
   Sequelize,
   sequelize,
@@ -45,4 +48,7 @@ export {
   SingleI18N,
 
   User,
+
+  Feed,
+  Article,
 };
