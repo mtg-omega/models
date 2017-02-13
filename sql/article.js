@@ -72,6 +72,12 @@ export default function (sequelize, DataTypes) {
 
     categories: {
       type: DataTypes.STRING,
+      set(json) {
+        this.setDataValue('categories', JSON.stringify(json));
+      },
+      get() {
+        return JSON.parse(this.getDataValue('categories'));
+      },
     },
   }, {
     classMethods: {
