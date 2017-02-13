@@ -53,6 +53,7 @@ export default function (sequelize, DataTypes) {
 
     guid: {
       type: DataTypes.STRING,
+      unique: true,
     },
 
     comments: {
