@@ -1,5 +1,5 @@
-# Magic the gathering "Omega"
+# Magic the Gathering: Omega
 
 ## The Models
 
-In this report, part of the *Magic the gathering "Omega"* project, there is the collection of models in use.
+Part of the "Magic the Gathering: Omega" project, containing all the SQL models

@@ -1,6 +1,6 @@
 {
   "name": "mtg-omega-models-sql",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "SQL models for the MtG Omega Project",
   "main": "lib/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "pretest": "npm run check",
     "test": "node --harmony node_modules/jest/bin/jest.js",
     "transpile": "babel --presets es2015 src --out-dir lib",
-    "pre-publish": "npm run transpile"
+    "prepublish": "npm run transpile"
   },
   "repository": {
     "type": "git",
