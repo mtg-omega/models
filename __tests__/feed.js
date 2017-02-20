@@ -1,4 +1,4 @@
-import { sequelize, Feed } from '../../sql';
+import { sequelize, Feed } from '../src';
 
 describe('Sql', () => {
   describe('Feed', () => {

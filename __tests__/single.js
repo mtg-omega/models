@@ -1,4 +1,4 @@
-import { sequelize, Single, SingleI18N, Edition } from '../../sql';
+import { sequelize, Single, SingleI18N, Edition } from '../src';
 
 describe('Sql', () => {
   describe('Single', () => {

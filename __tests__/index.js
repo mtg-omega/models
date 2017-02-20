@@ -1,4 +1,4 @@
-import * as models from '../../sql/index';
+import * as models from '../src';
 
 describe('Index', () => {
   it('should export sequelize', () => {

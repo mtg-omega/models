@@ -1,4 +1,4 @@
-import { sequelize, User } from '../../sql';
+import { sequelize, User } from '../src';
 
 describe('Sql', () => {
   describe('User', () => {
