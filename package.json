@@ -1,6 +1,6 @@
 {
   "name": "mtg-omega-models-sql",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "SQL models for the MtG Omega Project",
   "main": "lib/index.js",
   "scripts": {
@@ -43,10 +43,5 @@
     "eslint-plugin-react": "^6.8.0",
     "jest": "^18.1.0",
     "sqlite3": "^3.1.8"
-  },
-  "peerDependencies": {
-    "mysql2": "^1.1.0",
-    "pg": "^6.1.0",
-    "sqlite3": "^3.1.4"
   }
 }
