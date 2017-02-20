@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import config from 'config';
 import Sequelize from 'sequelize';
-import log from 'hotvenue-utils/utils/log';
+import log from 'zweer-utils/lib/log';
 
 const sequelize = new Sequelize(
   config.has('database.database') ? config.get('database.database') : null,
