@@ -3,5 +3,6 @@ config
 src
 .babelrc
 .editorconfig
+.eslintignore
 .eslintrc
 .gitignore
